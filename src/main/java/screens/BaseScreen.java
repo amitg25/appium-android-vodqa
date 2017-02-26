@@ -1,6 +1,7 @@
 package screens;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import utils.AppiumFactory;
@@ -10,7 +11,7 @@ import java.util.Properties;
 
 public class BaseScreen {
 
-  public static AppiumDriver driver = null;
+  protected static AppiumDriver<MobileElement> driver = null;
   public static Properties property = null;
   public static Logger LOGGER = null;
 

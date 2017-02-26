@@ -9,12 +9,11 @@ import java.io.IOException;
  */
 public class ShellExecution {
 
-  public static void clearAppData(){
+  public static void clearAppData() {
     try {
-      Runtime.getRuntime().exec("adb shell pm clear com.bitbar.movies");
+      Runtime.getRuntime().exec("adb shell pm clear com.vodqareactnative");
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
-
 }

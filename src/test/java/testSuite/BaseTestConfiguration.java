@@ -7,36 +7,38 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import screens.BaseScreen;
-import screens.MovieDetailsScreen;
-import screens.SearchScreen;
+import screens.*;
 import utils.AppiumFactory;
 import utils.PropertyFactory;
 import utils.ShellExecution;
 
 import java.io.IOException;
 import java.util.Properties;
-;
 
 public class BaseTestConfiguration {
+
   private static Logger LOGGER = null;
   public BaseScreen baseScreen;
-  public SearchScreen searchScreen;
-  public MovieDetailsScreen movieDetailsScreen;
+  public LoginScreen loginScreen;
+  public HomeScreen homeScreen;
+  public SliderScreen sliderScreen;
+  public VerticalSwipingScreen verticalSwipingScreen;
   public AppiumDriver baseTestDriver;
   public Properties baseTestProperty;
 
   public BaseTestConfiguration() {
-    LOGGER=LogManager.getLogger(BaseTestConfiguration.class);
+    LOGGER = LogManager.getLogger(BaseTestConfiguration.class);
     LOGGER.debug("Base test started");
     this.baseScreen = new BaseScreen();
-    this.searchScreen = new SearchScreen();
-    this.movieDetailsScreen = new MovieDetailsScreen();
+    this.loginScreen = new LoginScreen();
+    this.homeScreen = new HomeScreen();
+    this.sliderScreen = new SliderScreen();
+    this.verticalSwipingScreen = new VerticalSwipingScreen();
   }
 
   @BeforeSuite
   public void suiteSetup() {
-    LOGGER.debug("Before suite started");
+    LOGGER.debug("Before suite started - Logger");
     System.out.println("Before suite started");
     baseScreen.setProperty();
     baseScreen.setDriver();

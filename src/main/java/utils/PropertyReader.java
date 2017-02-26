@@ -1,7 +1,6 @@
 package utils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -20,12 +19,10 @@ public class PropertyReader {
   }
 
   public void loadProperty() {
-    FileInputStream propertyPath = null;
+    FileInputStream propertyPath;
     try {
       propertyPath = new FileInputStream("src/testSuite/resources/config.property");
       property.load(propertyPath);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }

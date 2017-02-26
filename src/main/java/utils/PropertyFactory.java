@@ -14,7 +14,7 @@ public class PropertyFactory {
 
   private static Properties property;
 
-  private PropertyFactory(){
+  private PropertyFactory() {
     property = new Properties();
     loadProperty();
   }
@@ -27,7 +27,7 @@ public class PropertyFactory {
   }
 
   public void loadProperty() {
-    FileInputStream propertyPath = null;
+    FileInputStream propertyPath;
     try {
       propertyPath = new FileInputStream("src/test/resources/config.properties");
       property.load(propertyPath);
