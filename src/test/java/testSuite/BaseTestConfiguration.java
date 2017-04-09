@@ -34,7 +34,6 @@ public class BaseTestConfiguration {
 
     @BeforeSuite
     public void suiteSetup() {
-        System.out.println("Before suite started");
         new PropertyFactory();
         baseScreen.setDriver();
         baseTestDriver = AppiumFactory.getDriver();
@@ -43,14 +42,12 @@ public class BaseTestConfiguration {
 
     @BeforeMethod
     public void testSetup() {
-        System.out.println("Before test started");
         baseScreen.launchApp();
         logger.info("Test setup completed");
     }
 
     @AfterMethod
     public void testClosure() throws IOException {
-        System.out.println("After test started");
         baseScreen.closeApp();
         ShellExecution.clearAppData();
         logger.info("Test closure completed");
@@ -58,7 +55,6 @@ public class BaseTestConfiguration {
 
     @AfterSuite
     public void suiteClosure() {
-        System.out.println("After suite started");
         AppiumFactory.quitDriver();
         logger.info("Suite closure completed");
     }
