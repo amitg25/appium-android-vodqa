@@ -1,5 +1,8 @@
 package utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,30 +14,29 @@ import java.util.Properties;
  * Project Name appium-android-calculator
  */
 public class PropertyFactory {
+    private static Logger logger = LogManager.getLogger(PropertyFactory.class);
+    private static Properties property = new Properties();
 
-  private static Properties property;
-
-  private PropertyFactory() {
-    property = new Properties();
-    loadProperty();
-  }
-
-  public static Properties getProperty() {
-    if (property == null) {
-      new PropertyFactory();
+    public PropertyFactory() {
+        loadProperty();
     }
-    return property;
-  }
 
-  public void loadProperty() {
-    FileInputStream propertyPath;
-    try {
-      propertyPath = new FileInputStream("src/test/resources/config.properties");
-      property.load(propertyPath);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
+    public static Properties getProperty() {
+        return property;
     }
-  }
+
+    public static void loadProperty() {
+        FileInputStream propertyPath;
+        try {
+            propertyPath = new FileInputStream("src/test/resources/config.properties");
+            property.load(propertyPath);
+        } catch (FileNotFoundException e) {
+            logger.error("Unable to find file in the path");
+            logger.error("Unable to load the properties file");
+            e.printStackTrace();
+        } catch (IOException e) {
+            logger.error("Unable to load the properties file");
+            e.printStackTrace();
+        }
+    }
 }

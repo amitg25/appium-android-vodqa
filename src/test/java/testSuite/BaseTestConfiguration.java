@@ -13,58 +13,53 @@ import utils.PropertyFactory;
 import utils.ShellExecution;
 
 import java.io.IOException;
-import java.util.Properties;
 
 public class BaseTestConfiguration {
 
-  private static Logger LOGGER = null;
-  public BaseScreen baseScreen;
-  public LoginScreen loginScreen;
-  public HomeScreen homeScreen;
-  public SliderScreen sliderScreen;
-  public VerticalSwipingScreen verticalSwipingScreen;
-  public AppiumDriver baseTestDriver;
-  public Properties baseTestProperty;
+    private static Logger logger = LogManager.getLogger(BaseTestConfiguration.class);
+    public BaseScreen baseScreen;
+    public LoginScreen loginScreen;
+    public HomeScreen homeScreen;
+    public SliderScreen sliderScreen;
+    public VerticalSwipingScreen verticalSwipingScreen;
+    public AppiumDriver baseTestDriver;
 
-  public BaseTestConfiguration() {
-    LOGGER = LogManager.getLogger(BaseTestConfiguration.class);
-    LOGGER.debug("Base test started");
-    this.baseScreen = new BaseScreen();
-    this.loginScreen = new LoginScreen();
-    this.homeScreen = new HomeScreen();
-    this.sliderScreen = new SliderScreen();
-    this.verticalSwipingScreen = new VerticalSwipingScreen();
-  }
+    public BaseTestConfiguration() {
+        this.baseScreen = new BaseScreen();
+        this.loginScreen = new LoginScreen();
+        this.homeScreen = new HomeScreen();
+        this.sliderScreen = new SliderScreen();
+        this.verticalSwipingScreen = new VerticalSwipingScreen();
+    }
 
-  @BeforeSuite
-  public void suiteSetup() {
-    LOGGER.debug("Before suite started - Logger");
-    System.out.println("Before suite started");
-    baseScreen.setProperty();
-    baseScreen.setDriver();
-    baseTestProperty = PropertyFactory.getProperty();
-    baseTestDriver = AppiumFactory.getDriver();
-  }
+    @BeforeSuite
+    public void suiteSetup() {
+        System.out.println("Before suite started");
+        new PropertyFactory();
+        baseScreen.setDriver();
+        baseTestDriver = AppiumFactory.getDriver();
+        logger.info("Suite setup completed");
+    }
 
-  @BeforeMethod
-  public void testSetup() {
-    LOGGER.debug("Before test started");
-    System.out.println("Before test started");
-    baseScreen.launchApp();
-  }
+    @BeforeMethod
+    public void testSetup() {
+        System.out.println("Before test started");
+        baseScreen.launchApp();
+        logger.info("Test setup completed");
+    }
 
-  @AfterMethod
-  public void tesxdsftTearDown() throws IOException {
-    LOGGER.debug("after test started");
-    System.out.println("after test started");
-    baseScreen.closeApp();
-    ShellExecution.clearAppData();
-  }
+    @AfterMethod
+    public void testClosure() throws IOException {
+        System.out.println("After test started");
+        baseScreen.closeApp();
+        ShellExecution.clearAppData();
+        logger.info("Test closure completed");
+    }
 
-  @AfterSuite
-  public void suiteTearDown() {
-    LOGGER.debug("After suite started");
-    System.out.println("After suite started");
-    AppiumFactory.quitDriver();
-  }
+    @AfterSuite
+    public void suiteClosure() {
+        System.out.println("After suite started");
+        AppiumFactory.quitDriver();
+        logger.info("Suite closure completed");
+    }
 }

@@ -19,43 +19,42 @@ import java.util.Properties;
  */
 public class AppiumFactory {
 
-  private static Logger LOGGER = LogManager.getLogger(AppiumFactory.class);
+    private static AppiumDriver<MobileElement> driver;
+    private static Logger logger = LogManager.getLogger(AppiumFactory.class);
+    private static Properties property = PropertyFactory.getProperty();
 
-  private static AppiumDriver<MobileElement> driver;
-  public Properties property;
-
-  private AppiumFactory() {
-    property = PropertyFactory.getProperty();
-    setDriver();
-  }
-
-  public static AppiumDriver getDriver() {
-    if (driver == null) {
-      new AppiumFactory();
+    public AppiumFactory() {
+        configureDriver();
     }
-    return driver;
-  }
 
-  public static void quitDriver() {
-    driver.quit();
-    driver = null;
-  }
-
-  public void setDriver() {
-    LOGGER.info("Setting up of Android driver");
-    DesiredCapabilities capabilities;
-    capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, property.getProperty("DEVICE_NAME"));
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, property.getProperty("PLATFORM_NAME"));
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, property.getProperty("PLATFORM_VERSION"));
-    capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, property.getProperty("AUTOMATION_NAME"));
-    capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 700000);
-    capabilities.setCapability(MobileCapabilityType.APP, property.getProperty("APP"));
-    try {
-      System.out.println("driver getting initialised");
-      driver = new AndroidDriver<>(new URL(property.getProperty("ANDROID_HUB_URL")), capabilities);
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
+    public static AppiumDriver getDriver() {
+        if (driver == null) {
+            new AppiumFactory();
+        }
+        return driver;
     }
-  }
+
+    public static void quitDriver() {
+        driver.quit();
+        driver = null;
+        logger.error("Driver quit");
+    }
+
+    public void configureDriver() {
+        DesiredCapabilities capabilities;
+        capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, property.getProperty("DEVICE_NAME"));
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, property.getProperty("PLATFORM_NAME"));
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, property.getProperty("PLATFORM_VERSION"));
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, property.getProperty("AUTOMATION_NAME"));
+        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 700000);
+        capabilities.setCapability(MobileCapabilityType.APP, property.getProperty("APP"));
+        try {
+            driver = new AndroidDriver<>(new URL(property.getProperty("NODE_URL")), capabilities);
+            logger.info("Driver initialised");
+        } catch (MalformedURLException e) {
+            logger.error("Unable to Create Android driver");
+            e.printStackTrace();
+        }
+    }
 }
