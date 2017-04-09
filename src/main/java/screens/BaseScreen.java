@@ -5,38 +5,30 @@ import io.appium.java_client.MobileElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import utils.AppiumFactory;
-import utils.PropertyFactory;
 
 import java.util.Properties;
 
 public class BaseScreen {
 
-  protected static AppiumDriver<MobileElement> driver = null;
-  public static Properties property = null;
-  public static Logger LOGGER = null;
+    public static Properties property = null;
+    public static AppiumDriver<MobileElement> driver = null;
+    private static Logger logger = LogManager.getLogger(BaseScreen.class);
 
-  public BaseScreen() {
-    LOGGER = LogManager.getLogger(BaseScreen.class);
-    LOGGER.info("Base Screen Started");
-  }
+    public BaseScreen() {
+    }
 
-  public void setDriver() {
+    public void setDriver() {
+        driver = AppiumFactory.getDriver();
+        logger.info("Drive set in BaseScreen");
+    }
 
-    LOGGER.info("Setting up of driver in BaseScreen");
-    driver = AppiumFactory.getDriver();
-  }
+    public void launchApp() {
+        driver.launchApp();
+        logger.info("App launched");
+    }
 
-  public void launchApp() {
-    driver.launchApp();
-  }
-
-  public void closeApp() {
-    driver.closeApp();
-  }
-
-  public void setProperty() {
-
-    LOGGER.info("Setting up of property in BaseScreen");
-    property = PropertyFactory.getProperty();
-  }
+    public void closeApp() {
+        driver.closeApp();
+        logger.info("App closed");
+    }
 }
